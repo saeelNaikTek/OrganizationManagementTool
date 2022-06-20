@@ -17,6 +17,16 @@
         </svg>
     </a>
 </p>
+<form method="post" asp-action="FacultyList">
+    <div class="row">
+        <div class="col-sm-4">
+            <input type="search" class="form-control" placeholder="Enter ...." value="@ViewData["GetFacultyList"]" name="tmp" />
+        </div>
+        <div class="col-sm-3">
+            <input type="submit" value="Filter" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
 <table id="FacultyTbl" class="table table-striped table-sm" cellspacing="0" width="100%" style="border-radius:4px;box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgb(96 ,166 ,193 , 80%) 4px 4px 14px 0px;">
     <thead class="bg-info">
         <tr>
@@ -91,6 +101,6 @@
     {
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script>
-        $('#FacultyTbl').DataTable({});
+        $('#FacultyTbl1').DataTable({});
     </script>
 }

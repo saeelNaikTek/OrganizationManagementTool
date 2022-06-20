@@ -52,6 +52,35 @@ namespace OrganizationManagementTool.Controllers
             
         }
 
+        [HttpPost]
+        public async Task<IActionResult> FacultyList(string tmp)
+        {
+            ViewData["GetFacultyList"] = tmp;
+            var factlist = from FT in _Db.Faculty_Tbl
+                           join DT in _Db.Department_Tbl
+                           on FT.DeptId equals DT.Id
+                           into Dep
+                           from DT in Dep.DefaultIfEmpty()
+
+                           select new Faculty
+                           {
+                               Id = FT.Id,
+                               Name = FT.Name,
+                               Mobile = FT.Mobile,
+                               Email = FT.Email,
+                               Age = FT.Age,
+                               Gender = FT.Gender,
+                               DeptId = FT.DeptId,
+                               DeptName = DT == null ? "" : DT.DeptName
+                           };
+
+            if (!String.IsNullOrEmpty(tmp))
+            {
+                factlist = factlist.Where(x => x.Name.Contains(tmp) || x.Mobile.Contains(tmp) || x.Email.Contains(tmp) || x.Age.ToString().Contains(tmp) || x.Gender.Contains(tmp) || x.DeptName.Contains(tmp));
+            }
+            return View(await factlist.AsNoTracking().ToListAsync());
+        }
+
         public IActionResult Faculty(Faculty objFact)
         {
             LoadDDL();
