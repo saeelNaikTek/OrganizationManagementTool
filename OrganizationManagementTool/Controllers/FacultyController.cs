@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using OrganizationManagementTool.Models;
 using System;
 using System.Collections.Generic;
@@ -23,25 +24,37 @@ namespace OrganizationManagementTool.Controllers
         {
             try
             {
-                //var FacultyList = _Db.Faculty_Tbl.ToList();
-                var FacultyList = from FT in _Db.Faculty_Tbl
-                                  join DT in _Db.Department_Tbl
-                                  on FT.DeptId equals DT.Id
-                                  into Dep
-                                  from DT in Dep.DefaultIfEmpty()
+                var FacultyList = _Db.Faculty_Tbl.Join(_Db.Department_Tbl,x=>x.DeptId, y => y.Id,
+                      (x, y) => new Faculty
+                      {
+                          Id = x.Id,
+                          Name = x.Name,
+                          Mobile = x.Mobile,
+                          Email = x.Email,
+                          Age = x.Age,
+                          Gender = x.Gender,
+                          DeptId = x.DeptId,
+                          DeptName = y == null ? "" : y.DeptName
+                      }
+                      );
 
-                                  select new Faculty
-                                  {
-                                      Id = FT.Id,
-                                      Name = FT.Name,
-                                      Mobile = FT.Mobile,
-                                      Email = FT.Email,
-                                      Age = FT.Age,
-                                      Gender = FT.Gender,
-                                      DeptId = FT.DeptId,
-                                      DeptName = DT == null ? "" : DT.DeptName
-                                  };
+                //var FacultyList = from FT in _Db.Faculty_Tbl
+                //                  join DT in _Db.Department_Tbl
+                //                  on FT.DeptId equals DT.Id
+                //                  into Dep
+                //                  from DT in Dep.DefaultIfEmpty()
 
+                //                  select new Faculty
+                //                  {
+                //                      Id = FT.Id,
+                //                      Name = FT.Name,
+                //                      Mobile = FT.Mobile,
+                //                      Email = FT.Email,
+                //                      Age = FT.Age,
+                //                      Gender = FT.Gender,
+                //                      DeptId = FT.DeptId,
+                //                      DeptName = DT == null ? "" : DT.DeptName
+                //                  };
 
                 return View(FacultyList);
             }
