@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 
 namespace OrganizationManagementTool.Controllers
 {
-    public class FacultyController : Controller
+    public class FacultyModelController : Controller
     {
-        private readonly FacultyContext _Db;
-        public FacultyController(FacultyContext Db)
+        //private readonly FacultyModelContext _Db;
+        private readonly OrganizationManagementContext _Db;
+        public FacultyModelController(OrganizationManagementContext Db)
         {
             _Db = Db;
         }
@@ -24,8 +25,8 @@ namespace OrganizationManagementTool.Controllers
         {
             try
             {
-                var FacultyList = _Db.Faculty_Tbl.Join(_Db.Department_Tbl,x=>x.DeptId, y => y.Id,
-                      (x, y) => new Faculty
+                var FacultyModelList = _Db.FacultyTbl.Join(_Db.DepartmentTbl, x => x.DeptId, y => y.Id,
+                      (x, y) => new FacultyModel
                       {
                           Id = x.Id,
                           Name = x.Name,
@@ -38,13 +39,13 @@ namespace OrganizationManagementTool.Controllers
                       }
                       );
 
-                //var FacultyList = from FT in _Db.Faculty_Tbl
-                //                  join DT in _Db.Department_Tbl
+                //var FacultyModelList = from FT in _Db.FacultyModelTbl
+                //                  join DT in _Db.DepartmentTbl
                 //                  on FT.DeptId equals DT.Id
                 //                  into Dep
                 //                  from DT in Dep.DefaultIfEmpty()
 
-                //                  select new Faculty
+                //                  select new FacultyModel
                 //                  {
                 //                      Id = FT.Id,
                 //                      Name = FT.Name,
@@ -56,26 +57,26 @@ namespace OrganizationManagementTool.Controllers
                 //                      DeptName = DT == null ? "" : DT.DeptName
                 //                  };
 
-                return View(FacultyList);
+                return View(FacultyModelList);
             }
             catch
             {
                 return View();
             }
-            
+
         }
 
         [HttpPost]
         public async Task<IActionResult> FacultyList(string tmp)
         {
-            ViewData["GetFacultyList"] = tmp;
-            var factlist = from FT in _Db.Faculty_Tbl
-                           join DT in _Db.Department_Tbl
+            ViewData["GetFacultyModelList"] = tmp;
+            var factlist = from FT in _Db.FacultyTbl
+                           join DT in _Db.DepartmentTbl
                            on FT.DeptId equals DT.Id
                            into Dep
                            from DT in Dep.DefaultIfEmpty()
 
-                           select new Faculty
+                           select new FacultyModel
                            {
                                Id = FT.Id,
                                Name = FT.Name,
@@ -94,7 +95,7 @@ namespace OrganizationManagementTool.Controllers
             return View(await factlist.AsNoTracking().ToListAsync());
         }
 
-        public IActionResult Faculty(Faculty objFact)
+        public IActionResult FacultyModel(FacultyModel objFact)
         {
             LoadDDL();
             ModelState.Clear();
@@ -102,15 +103,15 @@ namespace OrganizationManagementTool.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddFaculty(Faculty objFact)
+        public async Task<IActionResult> AddFacultyModel(FacultyModel objFact)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    if(objFact.Id == 0)
+                    if (objFact.Id == 0)
                     {
-                        _Db.Faculty_Tbl.Add(objFact);
+                        _Db.FacultyTbl.Add(objFact);
                         await _Db.SaveChangesAsync();
                     }
                     else
@@ -118,32 +119,32 @@ namespace OrganizationManagementTool.Controllers
                         _Db.Entry(objFact).State = EntityState.Modified;
                         await _Db.SaveChangesAsync();
                     }
-                    return RedirectToAction("FacultyList");
+                    return RedirectToAction("FacultyModelList");
                 }
                 return View();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return RedirectToAction("FacultyList");
+                return RedirectToAction("FacultyModelList");
             }
-            
+
         }
 
-        public async Task<IActionResult> DeleteFaculty(int id)
+        public async Task<IActionResult> DeleteFacultyModel(int id)
         {
             try
             {
-                var fact = await _Db.Faculty_Tbl.FindAsync(id);
-                if(fact != null)
+                var fact = await _Db.FacultyTbl.FindAsync(id);
+                if (fact != null)
                 {
-                    _Db.Faculty_Tbl.Remove(fact);
+                    _Db.FacultyTbl.Remove(fact);
                     await _Db.SaveChangesAsync();
                 }
-                return RedirectToAction("FacultyList");
+                return RedirectToAction("FacultyModelList");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return RedirectToAction("FacultyList");
+                return RedirectToAction("FacultyModelList");
             }
         }
 
@@ -151,9 +152,9 @@ namespace OrganizationManagementTool.Controllers
         {
             try
             {
-                List<Departments> deptList = new List<Departments>();
-                deptList = _Db.Department_Tbl.ToList();
-                deptList.Insert(0, new Departments { Id = 0, DeptName = "Please Select" });
+                List<DepartmentsModel> deptList = new List<DepartmentsModel>();
+                deptList = _Db.DepartmentTbl.ToList();
+                deptList.Insert(0, new DepartmentsModel { Id = 0, DeptName = "Please Select" });
 
 
                 ViewBag.DeptList = deptList;

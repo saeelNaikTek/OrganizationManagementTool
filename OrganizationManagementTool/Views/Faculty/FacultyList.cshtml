@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OrganizationManagementTool.Models.Faculty>
+﻿@model IEnumerable<OrganizationManagementTool.Models.FacultyModel>
 
 @{
     ViewData["Title"] = "FacultyList";
@@ -84,9 +84,9 @@
                 @*<td>
                         @Html.DisplayFor(modelItem => item.DeptId)
                     </td>*@
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.DeptName)
-                </td>
+                </td>*@
                 <td>
                     @Html.ActionLink("Edit", "Faculty", new { id = item.Id, item.Name, item.Mobile, item.Email, item.DeptId, item.Age, item.Gender }, new { @class = "btn btn-success" }) |
                     @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@

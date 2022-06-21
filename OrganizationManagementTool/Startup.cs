@@ -26,7 +26,8 @@ namespace OrganizationManagementTool
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<FacultyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppCon")));
+            //services.AddDbContext<FacultyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppCon")));
+            services.AddDbContext<OrganizationManagementContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppCon1")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
