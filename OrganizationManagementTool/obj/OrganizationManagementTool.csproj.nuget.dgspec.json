@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\saeel.naik\\source\\repos\\OrganizationManagementTool\\OrganizationManagementTool\\OrganizationManagementTool.csproj": {}
+    "C:\\Users\\saeel.naik\\Documents\\GitHub\\OrganizationManagementTool\\OrganizationManagementTool\\OrganizationManagementTool.csproj": {}
   },
   "projects": {
-    "C:\\Users\\saeel.naik\\source\\repos\\OrganizationManagementTool\\OrganizationManagementTool\\OrganizationManagementTool.csproj": {
+    "C:\\Users\\saeel.naik\\Documents\\GitHub\\OrganizationManagementTool\\OrganizationManagementTool\\OrganizationManagementTool.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\saeel.naik\\source\\repos\\OrganizationManagementTool\\OrganizationManagementTool\\OrganizationManagementTool.csproj",
+        "projectUniqueName": "C:\\Users\\saeel.naik\\Documents\\GitHub\\OrganizationManagementTool\\OrganizationManagementTool\\OrganizationManagementTool.csproj",
         "projectName": "OrganizationManagementTool",
-        "projectPath": "C:\\Users\\saeel.naik\\source\\repos\\OrganizationManagementTool\\OrganizationManagementTool\\OrganizationManagementTool.csproj",
+        "projectPath": "C:\\Users\\saeel.naik\\Documents\\GitHub\\OrganizationManagementTool\\OrganizationManagementTool\\OrganizationManagementTool.csproj",
         "packagesPath": "C:\\Users\\saeel.naik\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\saeel.naik\\source\\repos\\OrganizationManagementTool\\OrganizationManagementTool\\obj\\",
+        "outputPath": "C:\\Users\\saeel.naik\\Documents\\GitHub\\OrganizationManagementTool\\OrganizationManagementTool\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
