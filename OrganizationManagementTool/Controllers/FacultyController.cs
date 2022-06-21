@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace OrganizationManagementTool.Controllers
 {
-    public class FacultyModelController : Controller
+    public class FacultyController : Controller
     {
         //private readonly FacultyModelContext _Db;
         private readonly OrganizationManagementContext _Db;
-        public FacultyModelController(OrganizationManagementContext Db)
+        public FacultyController(OrganizationManagementContext Db)
         {
             _Db = Db;
         }
@@ -25,19 +25,21 @@ namespace OrganizationManagementTool.Controllers
         {
             try
             {
-                var FacultyModelList = _Db.FacultyTbl.Join(_Db.DepartmentTbl, x => x.DeptId, y => y.Id,
-                      (x, y) => new FacultyModel
-                      {
-                          Id = x.Id,
-                          Name = x.Name,
-                          Mobile = x.Mobile,
-                          Email = x.Email,
-                          Age = x.Age,
-                          Gender = x.Gender,
-                          DeptId = x.DeptId,
-                          DeptName = y == null ? "" : y.DeptName
-                      }
-                      );
+               var temp =  _Db.FacultyTbl.Include(d => d.Department).ToList();
+
+                //var FacultyModelList = _Db.FacultyTbl.Join(_Db.DepartmentTbl, x => x.DeptId, y => y.Id,
+                //      (x, y) => new FacultyModel
+                //      {
+                //          Id = x.Id,
+                //          Name = x.Name,
+                //          Mobile = x.Mobile,
+                //          Email = x.Email,
+                //          Age = x.Age,
+                //          Gender = x.Gender,
+                //          DeptId = x.DeptId,
+                //          DeptName = y == null ? "" : y.DeptName
+                //      }
+                //      );
 
                 //var FacultyModelList = from FT in _Db.FacultyModelTbl
                 //                  join DT in _Db.DepartmentTbl
@@ -57,7 +59,8 @@ namespace OrganizationManagementTool.Controllers
                 //                      DeptName = DT == null ? "" : DT.DeptName
                 //                  };
 
-                return View(FacultyModelList);
+                //return View(FacultyModelList);
+                return View(temp);
             }
             catch
             {
@@ -69,7 +72,7 @@ namespace OrganizationManagementTool.Controllers
         [HttpPost]
         public async Task<IActionResult> FacultyList(string tmp)
         {
-            ViewData["GetFacultyModelList"] = tmp;
+            ViewData["GetFacultyList"] = tmp;
             var factlist = from FT in _Db.FacultyTbl
                            join DT in _Db.DepartmentTbl
                            on FT.DeptId equals DT.Id
@@ -95,7 +98,7 @@ namespace OrganizationManagementTool.Controllers
             return View(await factlist.AsNoTracking().ToListAsync());
         }
 
-        public IActionResult FacultyModel(FacultyModel objFact)
+        public IActionResult Faculty(FacultyModel objFact)
         {
             LoadDDL();
             ModelState.Clear();
@@ -103,7 +106,7 @@ namespace OrganizationManagementTool.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddFacultyModel(FacultyModel objFact)
+        public async Task<IActionResult> AddFaculty(FacultyModel objFact)
         {
             try
             {
@@ -119,18 +122,18 @@ namespace OrganizationManagementTool.Controllers
                         _Db.Entry(objFact).State = EntityState.Modified;
                         await _Db.SaveChangesAsync();
                     }
-                    return RedirectToAction("FacultyModelList");
+                    return RedirectToAction("FacultyList");
                 }
                 return View();
             }
             catch (Exception ex)
             {
-                return RedirectToAction("FacultyModelList");
+                return RedirectToAction("FacultyList");
             }
 
         }
 
-        public async Task<IActionResult> DeleteFacultyModel(int id)
+        public async Task<IActionResult> DeleteFaculty(int id)
         {
             try
             {
@@ -140,11 +143,11 @@ namespace OrganizationManagementTool.Controllers
                     _Db.FacultyTbl.Remove(fact);
                     await _Db.SaveChangesAsync();
                 }
-                return RedirectToAction("FacultyModelList");
+                return RedirectToAction("FacultyList");
             }
             catch (Exception ex)
             {
-                return RedirectToAction("FacultyModelList");
+                return RedirectToAction("FacultyList");
             }
         }
 

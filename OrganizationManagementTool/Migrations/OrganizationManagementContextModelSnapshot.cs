@@ -47,20 +47,36 @@ namespace OrganizationManagementTool.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1)")
+                        .HasMaxLength(1);
 
                     b.Property<string>("Mobile")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DeptId");
+
                     b.ToTable("FacultyTbl");
+                });
+
+            modelBuilder.Entity("OrganizationManagementTool.Models.FacultyModel", b =>
+                {
+                    b.HasOne("OrganizationManagementTool.Models.DepartmentsModel", "Department")
+                        .WithMany()
+                        .HasForeignKey("DeptId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
