@@ -13,7 +13,6 @@ namespace OrganizationManagementTool.Models
         {
 
         }
-
         public DbSet<FacultyModel> FacultyTbl { get; set; }
         public DbSet<DepartmentsModel> DepartmentTbl { get; set; }
     }

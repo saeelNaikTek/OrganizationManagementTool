@@ -163,12 +163,11 @@ namespace OrganizationManagementTool.Controllers
         {
             try
             {
-                List<DepartmentsModel> deptList = new List<DepartmentsModel>();
-                deptList = _Db.DepartmentTbl.ToList();
-                deptList.Insert(0, new DepartmentsModel { Id = 0, DeptName = "Please Select" });
-
-
-                ViewBag.DeptList = deptList;
+                var temp = _obj.LoadDepartment();
+                //List<DepartmentsModel> deptList = new List<DepartmentsModel>();
+                //deptList = _Db.DepartmentTbl.ToList();
+                //deptList.Insert(0, new DepartmentsModel { Id = 0, DeptName = "Please Select" });
+                ViewBag.DeptList = temp;
             }
             catch
             {

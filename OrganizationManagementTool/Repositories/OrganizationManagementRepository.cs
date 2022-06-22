@@ -55,25 +55,24 @@ namespace OrganizationManagementTool.Repositories
             return factlist.ToList();
         }
 
-        public async Task<int> AddFaculty(FacultyModel objFact)
+        public async Task AddFaculty(FacultyModel objFact)
         {
             try
             {
                     if (objFact.Id == 0)
                     {
                         _Db.FacultyTbl.Add(objFact);
-                        await _Db.SaveChangesAsync();
+                        _Db.SaveChanges();
                     }
                     else
                     {
                         _Db.Entry(objFact).State = EntityState.Modified;
-                        await _Db.SaveChangesAsync();
+                        _Db.SaveChanges();
                     }
-                    return 1;
             }
             catch (Exception ex)
             {
-                return 0;
+
             }
         }
 
@@ -81,17 +80,26 @@ namespace OrganizationManagementTool.Repositories
         {
             try
             {
-                var fact = await _Db.FacultyTbl.FindAsync(id);
+                //FacultyModel fact1 = _Db.FacultyTbl.Where(a => a.Id == id).SingleOrDefault();
+                var fact = _Db.FacultyTbl.Find(id);
                 if (fact != null)
                 {
                     _Db.FacultyTbl.Remove(fact);
-                    await _Db.SaveChangesAsync();
+                    _Db.SaveChanges();
                 }
             }
             catch (Exception ex)
             {
 
             }
+        }
+
+        public List<DepartmentsModel> LoadDepartment()
+        {
+            List<DepartmentsModel> deptList = new List<DepartmentsModel>();
+            deptList = _Db.DepartmentTbl.ToList();
+            deptList.Insert(0, new DepartmentsModel { Id = 0, DeptName = "Please Select" });
+            return deptList;
         }
     }
 }
