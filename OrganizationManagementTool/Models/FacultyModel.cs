@@ -27,6 +27,7 @@ namespace OrganizationManagementTool.Models
         public string Mobile { get; set; }
 
         [Required(ErrorMessage = "Required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
         public int Age { get; set; }
 
         [Required(ErrorMessage = "Please choose gender")]

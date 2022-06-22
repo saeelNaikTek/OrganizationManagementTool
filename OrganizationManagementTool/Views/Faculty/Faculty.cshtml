@@ -53,8 +53,9 @@
                 </div>
                 <div class="col-sm-4">
                     <label asp-for="DeptId" class="control-label"></label>
-                    @*@Html.DropDownList("DeptId", new SelectList(ViewBag.DeptList, "Id", "DeptName"), new { @class = "form-control" })*@
+                    @*@Html.DropDownList("DeptId", new SelectList(ViewBag.DeptList, "Id", "DeptName"), new { @class = "form-control"})*@
                     <select asp-for="DeptId" class="form-control" asp-items="@(new SelectList(ViewBag.DeptList,"Id","DeptName"))"></select>
+                    <span asp-validation-for="DeptId" class="text-danger"></span>
                 </div>
             </div>
             <br />

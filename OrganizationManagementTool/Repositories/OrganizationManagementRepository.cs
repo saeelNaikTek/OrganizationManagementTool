@@ -30,6 +30,7 @@ namespace OrganizationManagementTool.Repositories
 
         public List<FacultyModel> GetAllFacultyList(string temp)
         {
+            //var factlist1 = _Db.FacultyTbl.Include(d => d.Department).ToList().AsQueryable().Where(x => x.Name.Contains(temp) || x.Mobile.Contains(temp) || x.Email.Contains(temp) || x.Age.ToString().Contains(temp) || x.Gender.Contains(temp) || x.DeptName.Contains(temp));
             var factlist = from FT in _Db.FacultyTbl
                            join DT in _Db.DepartmentTbl
                            on FT.DeptId equals DT.Id
