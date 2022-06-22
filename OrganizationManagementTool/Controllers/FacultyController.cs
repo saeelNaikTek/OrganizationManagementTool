@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using OrganizationManagementTool.Interfaces;
 using OrganizationManagementTool.Models;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,11 @@ namespace OrganizationManagementTool.Controllers
     {
         //private readonly FacultyModelContext _Db;
         private readonly OrganizationManagementContext _Db;
-        public FacultyController(OrganizationManagementContext Db)
+        private readonly IOrganizationManagement _obj;
+        public FacultyController(OrganizationManagementContext Db, IOrganizationManagement obj)
         {
             _Db = Db;
+            _obj = obj;
         }
         public IActionResult Index()
         {
@@ -25,6 +28,7 @@ namespace OrganizationManagementTool.Controllers
         {
             try
             {
+               var test = _obj.GetAllFacultyList();
                var temp =  _Db.FacultyTbl.Include(d => d.Department).ToList();
 
                 //var FacultyModelList = _Db.FacultyTbl.Join(_Db.DepartmentTbl, x => x.DeptId, y => y.Id,
@@ -60,7 +64,7 @@ namespace OrganizationManagementTool.Controllers
                 //                  };
 
                 //return View(FacultyModelList);
-                return View(temp);
+                return View(test);
             }
             catch
             {
@@ -72,30 +76,32 @@ namespace OrganizationManagementTool.Controllers
         [HttpPost]
         public async Task<IActionResult> FacultyList(string tmp)
         {
+            var test = _obj.GetAllFacultyList(tmp);
             ViewData["GetFacultyList"] = tmp;
-            var factlist = from FT in _Db.FacultyTbl
-                           join DT in _Db.DepartmentTbl
-                           on FT.DeptId equals DT.Id
-                           into Dep
-                           from DT in Dep.DefaultIfEmpty()
+            //var factlist = from FT in _Db.FacultyTbl
+            //               join DT in _Db.DepartmentTbl
+            //               on FT.DeptId equals DT.Id
+            //               into Dep
+            //               from DT in Dep.DefaultIfEmpty()
 
-                           select new FacultyModel
-                           {
-                               Id = FT.Id,
-                               Name = FT.Name,
-                               Mobile = FT.Mobile,
-                               Email = FT.Email,
-                               Age = FT.Age,
-                               Gender = FT.Gender,
-                               DeptId = FT.DeptId,
-                               DeptName = DT == null ? "" : DT.DeptName
-                           };
+            //               select new FacultyModel
+            //               {
+            //                   Id = FT.Id,
+            //                   Name = FT.Name,
+            //                   Mobile = FT.Mobile,
+            //                   Email = FT.Email,
+            //                   Age = FT.Age,
+            //                   Gender = FT.Gender,
+            //                   DeptId = FT.DeptId,
+            //                   DeptName = DT == null ? "" : DT.DeptName
+            //               };
 
-            if (!String.IsNullOrEmpty(tmp))
-            {
-                factlist = factlist.Where(x => x.Name.Contains(tmp) || x.Mobile.Contains(tmp) || x.Email.Contains(tmp) || x.Age.ToString().Contains(tmp) || x.Gender.Contains(tmp) || x.DeptName.Contains(tmp));
-            }
-            return View(await factlist.AsNoTracking().ToListAsync());
+            //if (!String.IsNullOrEmpty(tmp))
+            //{
+            //    factlist = factlist.Where(x => x.Name.Contains(tmp) || x.Mobile.Contains(tmp) || x.Email.Contains(tmp) || x.Age.ToString().Contains(tmp) || x.Gender.Contains(tmp) || x.DeptName.Contains(tmp));
+            //}
+            return View(test);
+            //return View(await factlist.AsNoTracking().ToListAsync());
         }
 
         public IActionResult Faculty(FacultyModel objFact)
@@ -112,16 +118,17 @@ namespace OrganizationManagementTool.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (objFact.Id == 0)
-                    {
-                        _Db.FacultyTbl.Add(objFact);
-                        await _Db.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        _Db.Entry(objFact).State = EntityState.Modified;
-                        await _Db.SaveChangesAsync();
-                    }
+                   var query = _obj.AddFaculty(objFact);
+                    //if (objFact.Id == 0)
+                    //{
+                    //    _Db.FacultyTbl.Add(objFact);
+                    //    await _Db.SaveChangesAsync();
+                    //}
+                    //else
+                    //{
+                    //    _Db.Entry(objFact).State = EntityState.Modified;
+                    //    await _Db.SaveChangesAsync();
+                    //}
                     return RedirectToAction("FacultyList");
                 }
                 return View();
@@ -137,12 +144,13 @@ namespace OrganizationManagementTool.Controllers
         {
             try
             {
-                var fact = await _Db.FacultyTbl.FindAsync(id);
-                if (fact != null)
-                {
-                    _Db.FacultyTbl.Remove(fact);
-                    await _Db.SaveChangesAsync();
-                }
+                var query = _obj.DeleteFaculty(id);
+                //var fact = await _Db.FacultyTbl.FindAsync(id);
+                //if (fact != null)
+                //{
+                //    _Db.FacultyTbl.Remove(fact);
+                //    await _Db.SaveChangesAsync();
+                //}
                 return RedirectToAction("FacultyList");
             }
             catch (Exception ex)

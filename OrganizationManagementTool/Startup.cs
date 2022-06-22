@@ -5,11 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OrganizationManagementTool.Repositories;
 using OrganizationManagementTool.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OrganizationManagementTool.Interfaces;
 
 namespace OrganizationManagementTool
 {
@@ -28,6 +30,7 @@ namespace OrganizationManagementTool
             services.AddControllersWithViews();
             //services.AddDbContext<FacultyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppCon")));
             services.AddDbContext<OrganizationManagementContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppCon1")));
+            services.AddTransient<IOrganizationManagement,OrganizationManagementRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

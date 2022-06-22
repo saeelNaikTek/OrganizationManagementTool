@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OrganizationManagementTool.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
