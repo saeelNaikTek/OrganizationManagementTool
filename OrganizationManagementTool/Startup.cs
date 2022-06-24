@@ -31,6 +31,7 @@ namespace OrganizationManagementTool
             //services.AddDbContext<FacultyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppCon")));
             services.AddDbContext<OrganizationManagementContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppCon1")));
             services.AddTransient<IOrganizationManagement,OrganizationManagementRepository>();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

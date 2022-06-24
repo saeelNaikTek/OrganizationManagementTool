@@ -9,6 +9,7 @@ namespace OrganizationManagementTool.Models
 {
     public class FacultyModel
     {
+
         [Key]
         public int Id { get; set; }
 
@@ -44,5 +45,8 @@ namespace OrganizationManagementTool.Models
 
         [NotMapped]
         public string DeptName { get; set; }
+
+        //[NotMapped]
+        //public List<FacultyModel> FacultyList { get; set; }
     }
 }

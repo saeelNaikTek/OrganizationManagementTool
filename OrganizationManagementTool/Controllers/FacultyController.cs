@@ -13,9 +13,11 @@ namespace OrganizationManagementTool.Controllers
     public class FacultyController : Controller
     {
         private readonly IOrganizationManagement _Db;
-        public FacultyController(IOrganizationManagement Db)
+        private readonly OrganizationManagementContext _modelDb;
+        public FacultyController(IOrganizationManagement Db, OrganizationManagementContext modelDb)
         {
             _Db = Db;
+            _modelDb = modelDb;
         }
         public IActionResult Index()
         {
@@ -25,10 +27,10 @@ namespace OrganizationManagementTool.Controllers
         {
             try
             {
-               var factList = _Db.GetAllFacultyList();
-               return View(factList);
+                var factList = _Db.GetAllFacultyList();
+                return View(factList);
             }
-            catch
+            catch(Exception ex)
             {
                 return View();
             }
@@ -36,19 +38,36 @@ namespace OrganizationManagementTool.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> FacultyList(string tmp)
+        public IActionResult FacultyList(string tmp)
         {
             var factList = _Db.GetAllFacultyList(tmp);
             ViewData["GetFacultyList"] = tmp;
+            //return PartialView("_FacultyList", factList);
             return View(factList);
         }
 
-        public IActionResult Faculty(FacultyModel objFact)
+        //public IActionResult Faculty(FacultyModel objFact)
+        //{
+        //    var temp = _Db.LoadDepartment();
+        //    ViewBag.DeptList = temp;
+        //    ModelState.Clear();
+        //    return View(objFact);
+        //}
+
+        public IActionResult Faculty(int id)
         {
+            ModelState.Clear();
             var temp = _Db.LoadDepartment();
             ViewBag.DeptList = temp;
-            ModelState.Clear();
-            return View(objFact);
+            if(id == 0)
+            {
+                return View();
+            }
+            else
+            {
+                var query = _Db.EditFaculty(id);
+                return View(query);
+            }
         }
 
         [HttpPost]
@@ -56,12 +75,12 @@ namespace OrganizationManagementTool.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
+                //if (ModelState.IsValid)
+               // {
                    var query = _Db.AddFaculty(objFact);
                    return RedirectToAction("FacultyList");
-                }
-                return View();
+              //  }
+               // return View();
             }
             catch (Exception ex)
             {
@@ -82,6 +101,48 @@ namespace OrganizationManagementTool.Controllers
                 return RedirectToAction("FacultyList");
             }
         }
+
+        //Ajax Call
+        public JsonResult GetAllFacultyList()//working
+        {
+            var factList = _Db.GetAllFacultyList();
+            return Json(factList);
+        }
+
+        public JsonResult GetFacultyList(string tmp)
+        {
+            var factList = _Db.GetAllFacultyList(tmp);
+            ViewData["GetFacultyList"] = tmp;
+            return Json(factList);
+        }
+
+        //public JsonResult EditFaculty(int id)
+        //{
+        //    try
+        //    {
+        //        var query = _Db.EditFaculty(id);
+        //        return Json(query);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(ex);
+        //    }
+        //}
+
+        public JsonResult DeleteFacultyDtls(int id)
+        {
+            try
+            {
+                var query = _Db.DeleteFaculty(id);
+                return Json(query);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex);
+            }
+        }
+
+        //EOC
 
         //private void LoadDDL()
         //{

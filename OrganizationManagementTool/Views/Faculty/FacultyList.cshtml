@@ -4,11 +4,7 @@
     ViewData["Title"] = "FacultyList";
 }
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-
 <h1>Faculty List</h1>
-
 <p class="float-right">
     <a asp-action="Faculty" class="btn btn-primary">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
@@ -17,22 +13,25 @@
         </svg>
     </a>
 </p>
-<form method="post" asp-action="FacultyList">
-    <div class="row">
-        <div class="col-sm-4">
-            <input type="search" class="form-control" placeholder="Enter ...." value="@ViewData["GetFacultyList"]" name="tmp" />
-        </div>
-        <div class="col-sm-3">
-            <input type="submit" value="Filter" class="btn btn-primary" />
-        </div>
+
+<!--partial view-->
+@*<div class="container">
+       <partial name="_AddEditFaculty" model="Model" />
+    </div>*@
+<!--EOC partial view-->
+@*<form method="post" asp-action="FacultyList"> name="tmp"*@
+<div class="row">
+    <div class="col-sm-4">
+        <input type="search" class="form-control" placeholder="Enter ...." value="@ViewData["GetFacultyList"]" id="strFilter" />
     </div>
-</form>
+    <div class="col-sm-3">
+        <input type="submit" value="Filter" class="btn btn-primary" onclick="return GetFacultyList()" />
+    </div>
+</div>
+@*  </form>*@
 <table id="FacultyTbl" class="table table-striped table-sm" cellspacing="0" width="100%" style="border-radius:4px;box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgb(96 ,166 ,193 , 80%) 4px 4px 14px 0px;">
     <thead class="bg-info">
         <tr>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.Id)
-                </th>*@
             <th>
                 @Html.DisplayName("Name")
             </th>
@@ -48,9 +47,6 @@
             <th>
                 @Html.DisplayName("Gender")
             </th>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.DeptId)
-                </th>*@
             <th>
                 @Html.DisplayName("Department Name")
             </th>
@@ -59,48 +55,152 @@
             </th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>*@
+    <tbody class="tbody">
+        @*@foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mobile)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Age)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gender)
+                    </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @if (item.DeptName == null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Department.DeptName)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.DeptName)
+                    }
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Mobile)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Age)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Gender)
-                </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.DeptId)
-                    </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.Department.DeptName)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Faculty", new { id = item.Id, item.Name, item.Mobile, item.Email, item.DeptId, item.Age, item.Gender }, new { @class = "btn btn-success" }) |
-                    @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
-                    @Html.ActionLink("Delete", "DeleteFaculty", new { id = item.Id }, new { @class = "btn btn-success", onclick = "return confirm('Are you sure you want to delete?')" })
-                </td>
-            </tr>
-        }
+                    <td>
+                        @Html.ActionLink("Edit", "Faculty", new { id = item.Id, item.Name, item.Mobile, item.Email, item.DeptId, item.Age, item.Gender }, new { @class = "btn btn-success" }) |
+                        @Html.ActionLink("Delete", "DeleteFaculty", new { id = item.Id }, new { @class = "btn btn-success", onclick = "return confirm('Are you sure you want to delete?')" })
+                    </td>
+                </tr>
+            }*@
     </tbody>
 </table>
+
+
+
+
+
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 @section scripts
     {
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script>
         $('#FacultyTbl1').DataTable({});
+    </script>
+    <script>
+        $(document).ready(function () {
+            loadData();
+        });
+
+        function loadData() {
+            $.ajax({
+                url: "/Faculty/GetAllFacultyList",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var html = '';
+                    $.each(result, function (key, item) {
+                        html += '<tr>';
+                        html += '<td>' + item.name + '</td>';
+                        html += '<td>' + item.email + '</td>';
+                        html += '<td>' + item.mobile + '</td>';
+                        html += '<td>' + item.age + '</td>';
+                        html += '<td>' + item.gender + '</td>';
+                        html += '<td>' + item.department.deptName + '</td>';
+                        html += '<td><a href="#" onclick="return EditFaculty(' + item.id + ')">Edit</a> | <a href="#" onclick="DeleteFacultyDtls(' + item.id + ')">Delete</a></td>';
+                        html += '</tr>';
+                    });
+                    $('.tbody').html(html);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+
+        function GetFacultyList() {
+            var filter = $("#strFilter").val();
+            $.ajax({
+                url: "/Faculty/GetFacultyList/",
+                type: "GET",
+                data: { 'tmp': filter },
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var html = '';
+                    $.each(result, function (key, item) {
+                        html += '<tr>';
+                        html += '<td>' + item.name + '</td>';
+                        html += '<td>' + item.email + '</td>';
+                        html += '<td>' + item.mobile + '</td>';
+                        html += '<td>' + item.age + '</td>';
+                        html += '<td>' + item.gender + '</td>';
+                        html += '<td>' + item.deptName + '</td>';
+                        html += '<td><a href="#" onclick="return EditFaculty(' + item.id + ')">Edit</a> | <a href="#" onclick="DeleteFacultyDtls(' + item.id + ')">Delete</a></td>';
+                        html += '</tr>';
+                    });
+                    $('.tbody').html(html);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+
+        function EditFaculty(ID) {
+            //var ans = confirm("Are you sure you want to delete this Record?");
+            //if (ans) {
+                window.location.href = '/Faculty/Faculty/' + ID;
+
+                //$.ajax({
+                //    url: "/Faculty/EditFaculty/" + ID,
+                //    type: "POST",
+                //    contentType: "application/json;charset=UTF-8",
+                //    dataType: "json",
+                //    success: function (result) {
+                //        window.location.href = '/Faculty/Faculty/' + result;
+                //    },
+                //    error: function (errormessage) {
+                //        alert(errormessage.responseText);
+                //    }
+                //});
+            //}
+        }
+
+        function DeleteFacultyDtls(ID) {
+            var ans = confirm("Are you sure you want to delete this Record?");
+            if (ans) {
+                $.ajax({
+                    url: "/Faculty/DeleteFacultyDtls/" + ID,
+                    type: "POST",
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (result) {
+                        loadData();
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
+            }
+        }
     </script>
 }

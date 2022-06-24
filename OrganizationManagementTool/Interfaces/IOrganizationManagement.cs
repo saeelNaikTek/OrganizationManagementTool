@@ -12,6 +12,7 @@ namespace OrganizationManagementTool.Interfaces
         public List<FacultyModel> GetAllFacultyList();
         public List<FacultyModel> GetAllFacultyList(string temp);
         public Task AddFaculty(FacultyModel objFact);
+        public FacultyModel EditFaculty(int id);
         public Task DeleteFaculty(int id);
         public List<DepartmentsModel> LoadDepartment();
         //Task<FacultyModel> GetFacultyDtls(FacultyModel objfact);

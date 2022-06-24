@@ -30,7 +30,7 @@ namespace OrganizationManagementTool.Repositories
 
         public List<FacultyModel> GetAllFacultyList(string temp)
         {
-            //var factlist1 = _Db.FacultyTbl.Include(d => d.Department).ToList().AsQueryable().Where(x => x.Name.Contains(temp) || x.Mobile.Contains(temp) || x.Email.Contains(temp) || x.Age.ToString().Contains(temp) || x.Gender.Contains(temp) || x.DeptName.Contains(temp));
+            var factlist1 = _Db.FacultyTbl.Include(d => d.Department).AsNoTracking();
             var factlist = from FT in _Db.FacultyTbl
                            join DT in _Db.DepartmentTbl
                            on FT.DeptId equals DT.Id
@@ -77,6 +77,31 @@ namespace OrganizationManagementTool.Repositories
             }
         }
 
+        public FacultyModel EditFaculty(int id)
+        {
+            try
+            {
+                FacultyModel fact1 = _Db.FacultyTbl.Where(a => a.Id == id).SingleOrDefault();
+                var temp = _Db.FacultyTbl.Find(id);
+
+                return new FacultyModel
+                    {
+                        Id = temp.Id,
+                        Name = temp.Name,
+                        Mobile = temp.Mobile,
+                        Email = temp.Email,
+                        Age = temp.Age,
+                        Gender = temp.Gender,
+                        DeptId = temp.DeptId,
+                        DeptName = temp == null ? "" : temp.DeptName
+                    };
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public async Task DeleteFaculty(int id)
         {
             try
@@ -94,7 +119,6 @@ namespace OrganizationManagementTool.Repositories
 
             }
         }
-
         public List<DepartmentsModel> LoadDepartment()
         {
             List<DepartmentsModel> deptList = new List<DepartmentsModel>();
@@ -102,5 +126,7 @@ namespace OrganizationManagementTool.Repositories
             deptList.Insert(0, new DepartmentsModel { Id = 0, DeptName = "Please Select" });
             return deptList;
         }
+
+
     }
 }
