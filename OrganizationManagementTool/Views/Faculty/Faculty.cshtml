@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-8">
-        <form asp-action="AddFaculty">
+        <form id="myForm"><!-- asp-action="AddFaculty" -->
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
                 <div class="col-sm-4">
@@ -62,7 +62,7 @@
             <div class="row">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-4" style="text-align: center;">
-                    <input type="submit" value="Submit" class="btn btn-primary" />
+                    <input type="submit" value="Submit" class="btn btn-primary" onclick="return AddUpdateFaculty()" />
                 </div>
                 <div class="col-sm-4"></div>
             </div>
@@ -71,5 +71,49 @@
 </div>
 
 @section Scripts {
+
+    <script>
+        function AddUpdateFaculty()
+        {
+
+            $.ajax({
+                type: "POST",
+                url: '/Faculty/AddFaculty',     //your action
+                data: $('#myForm').serialize(),   //your form name.it takes all the values of model
+                dataType: 'json',
+                success: function (result) {
+                    window.location.href = '/Faculty/FacultyList/';
+                    //console.log(result);
+                }
+            })
+
+            //var Model = new Object();
+            //Model.ResId = $('#ResId').val();
+            //Model.EmpId = $('#EmpId').val();
+            //Model.Emp_Name = $('#Emp_Name').val();
+            //Model.Mobile = $('#Mobile').val();
+            //Model.DeptId = $('#DeptId').val();
+
+            @*var Id = $('#Id').val();
+            var Name = $('#Name').val();
+            var Email = $('#Email').val();
+            var Mobile = $('#Mobile').val();
+            var Age = $('#Age').val();
+            var Gender = $('#Gender').val();
+            var DeptId = $('#DeptId').val();
+            var DeptName = $('#DeptName').val();
+            var formData = $('#myForm').serialize();
+            var url = "@Url.Action("AddFaculty", "Faculty")";*@
+            //var model = { Id: Id, Name: Name, Email: Email, Mobile: Mobile, Age: Age, Gender: Gender, DeptId: DeptId, DeptName: DeptName};
+            //var model = formData;
+            //$.post(url, model, function(res){
+            //    //$("#SomeDivToShowTheResult").html(res);
+            //    window.location.href = '/Faculty/FacultyList/';
+            //});
+        }
+
+    </script>
+
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

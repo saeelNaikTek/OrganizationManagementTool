@@ -23,28 +23,35 @@ namespace OrganizationManagementTool.Controllers
         {
             return View();
         }
+
         public IActionResult FacultyList()
         {
-            try
-            {
-                var factList = _Db.GetAllFacultyList();
-                return View(factList);
-            }
-            catch(Exception ex)
-            {
-                return View();
-            }
-
+            return View();
         }
 
-        [HttpPost]
-        public IActionResult FacultyList(string tmp)
-        {
-            var factList = _Db.GetAllFacultyList(tmp);
-            ViewData["GetFacultyList"] = tmp;
-            //return PartialView("_FacultyList", factList);
-            return View(factList);
-        }
+
+        //public IActionResult FacultyList()
+        //{
+        //    try
+        //    {
+        //        var factList = _Db.GetAllFacultyList();
+        //        return View(factList);
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        return View();
+        //    }
+
+        //}
+
+        //[HttpPost]
+        //public IActionResult FacultyList(string tmp)
+        //{
+        //    var factList = _Db.GetAllFacultyList(tmp);
+        //    ViewData["GetFacultyList"] = tmp;
+        //    //return PartialView("_FacultyList", factList);
+        //    return View(factList);
+        //}
 
         //public IActionResult Faculty(FacultyModel objFact)
         //{
@@ -57,9 +64,8 @@ namespace OrganizationManagementTool.Controllers
         public IActionResult Faculty(int id)
         {
             ModelState.Clear();
-            var temp = _Db.LoadDepartment();
-            ViewBag.DeptList = temp;
-            if(id == 0)
+            ViewBag.DeptList = _Db.LoadDepartment();
+            if (id == 0)
             {
                 return View();
             }
@@ -71,36 +77,51 @@ namespace OrganizationManagementTool.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddFaculty(FacultyModel objFact)
+        public JsonResult AddFaculty(FacultyModel objFact)
         {
             try
             {
-                //if (ModelState.IsValid)
-               // {
-                   var query = _Db.AddFaculty(objFact);
-                   return RedirectToAction("FacultyList");
-              //  }
-               // return View();
+                var query = _Db.AddFaculty(objFact);
+                return Json(query);
             }
             catch (Exception ex)
             {
-                return RedirectToAction("FacultyList");
+                return Json(ex);
             }
 
         }
 
-        public async Task<IActionResult> DeleteFaculty(int id)
-        {
-            try
-            {
-                var query = _Db.DeleteFaculty(id);
-                return RedirectToAction("FacultyList");
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("FacultyList");
-            }
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> AddFaculty(FacultyModel objFact)
+        //{
+        //    try
+        //    {
+        //        //if (ModelState.IsValid)
+        //        // {
+        //        var query = _Db.AddFaculty(objFact);
+        //        return RedirectToAction("FacultyList");
+        //        //  }
+        //        // return View();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return RedirectToAction("FacultyList");
+        //    }
+
+        //}
+
+        //public async Task<IActionResult> DeleteFaculty(int id)
+        //{
+        //    try
+        //    {
+        //        var query = _Db.DeleteFaculty(id);
+        //        return RedirectToAction("FacultyList");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return RedirectToAction("FacultyList");
+        //    }
+        //}
 
         //Ajax Call
         public JsonResult GetAllFacultyList()//working

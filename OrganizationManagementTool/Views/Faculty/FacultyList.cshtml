@@ -125,7 +125,7 @@
                         html += '<td>' + item.age + '</td>';
                         html += '<td>' + item.gender + '</td>';
                         html += '<td>' + item.department.deptName + '</td>';
-                        html += '<td><a href="#" onclick="return EditFaculty(' + item.id + ')">Edit</a> | <a href="#" onclick="DeleteFacultyDtls(' + item.id + ')">Delete</a></td>';
+                        html += '<td><a class="btn btn-success" href="#" onclick="return EditFaculty(' + item.id + ')">Edit</a> | <a class="btn btn-danger" href="#" onclick="DeleteFacultyDtls(' + item.id + ')">Delete</a></td>';
                         html += '</tr>';
                     });
                     $('.tbody').html(html);
@@ -154,7 +154,7 @@
                         html += '<td>' + item.age + '</td>';
                         html += '<td>' + item.gender + '</td>';
                         html += '<td>' + item.deptName + '</td>';
-                        html += '<td><a href="#" onclick="return EditFaculty(' + item.id + ')">Edit</a> | <a href="#" onclick="DeleteFacultyDtls(' + item.id + ')">Delete</a></td>';
+                        html += '<td><a class="btn btn-success" href="#" onclick="return EditFaculty(' + item.id + ')">Edit</a> | <a class="btn btn-danger" href="#" onclick="DeleteFacultyDtls(' + item.id + ')">Delete</a></td>';
                         html += '</tr>';
                     });
                     $('.tbody').html(html);
