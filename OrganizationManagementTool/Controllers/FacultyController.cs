@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using OrganizationManagementTool.Interfaces;
@@ -76,39 +77,42 @@ namespace OrganizationManagementTool.Controllers
             }
         }
 
-        [HttpPost]
-        public JsonResult AddFaculty(FacultyModel objFact)
-        {
-            try
-            {
-                var query = _Db.AddFaculty(objFact);
-                return Json(query);
-            }
-            catch (Exception ex)
-            {
-                return Json(ex);
-            }
-
-        }
-
         //[HttpPost]
-        //public async Task<IActionResult> AddFaculty(FacultyModel objFact)
+        //public JsonResult AddFaculty(FacultyModel objFact)
         //{
         //    try
         //    {
-        //        //if (ModelState.IsValid)
-        //        // {
         //        var query = _Db.AddFaculty(objFact);
-        //        return RedirectToAction("FacultyList");
-        //        //  }
-        //        // return View();
+        //        //var urlBuilder = new UrlHelper(Request.RequestContext);
+        //        //var url = urlBuilder.Action("Stores", "Store");
+        //        //return Json(new { status = "success", redirectUrl = "/Faculty/FacultyList/" });
+        //        return Json(query);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return RedirectToAction("FacultyList");
+        //        return Json(ex);
         //    }
 
         //}
+
+        [HttpPost]
+        public async Task<IActionResult> AddFaculty(FacultyModel objFact)
+        {
+            try
+            {
+                //if (ModelState.IsValid)
+                // {
+                var query = _Db.AddFaculty(objFact);
+                return RedirectToAction("FacultyList");
+                //  }
+                // return View();
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("FacultyList");
+            }
+
+        }
 
         //public async Task<IActionResult> DeleteFaculty(int id)
         //{

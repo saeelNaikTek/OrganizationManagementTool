@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-8">
-        <form id="myForm"><!-- asp-action="AddFaculty" -->
+        <form id="myForm" asp-action="AddFaculty"><!-- asp-action="AddFaculty" -->
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
                 <div class="col-sm-4">
@@ -62,7 +62,7 @@
             <div class="row">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-4" style="text-align: center;">
-                    <input type="submit" value="Submit" class="btn btn-primary" onclick="return AddUpdateFaculty()" />
+                    <input type="submit" value="Submit" class="btn btn-primary" @*onclick="return AddUpdateFaculty()"*@ />
                 </div>
                 <div class="col-sm-4"></div>
             </div>
@@ -75,17 +75,24 @@
     <script>
         function AddUpdateFaculty()
         {
-
+            var newUrl= '@Url.Action("FacultyList", "Faculty")';
             $.ajax({
                 type: "POST",
                 url: '/Faculty/AddFaculty',     //your action
                 data: $('#myForm').serialize(),   //your form name.it takes all the values of model
                 dataType: 'json',
                 success: function (result) {
-                    window.location.href = '/Faculty/FacultyList/';
+                    if (result.status === "success") {
+                        window.location.href = result.redirectUrl;
+                    }
+                    else {
+                        alert('Failed');
+                    }
+                    //window.location.href = newUrl;
+                    //window.location.href = '/Faculty/FacultyList/';
                     //console.log(result);
                 }
-            })
+            });
 
             //var Model = new Object();
             //Model.ResId = $('#ResId').val();
