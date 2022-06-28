@@ -82,7 +82,7 @@
                 data: $('#myForm').serialize(),   //your form name.it takes all the values of model
                 dataType: 'json',
                 success: function (result) {
-                    if (result.status === "success") {
+                    if (result.status = "success") {
                         window.location.href = result.redirectUrl;
                     }
                     else {

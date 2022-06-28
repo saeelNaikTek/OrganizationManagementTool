@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "SMpR/6ocYTC+jktJn64v2nyvgjpRLAg+ipWQlvtNqbPaPoJnx4qnERDvvFwViwD31f/qVyLEOYJVN6ijPtht+w==",
+  "dgSpecHash": "dlaF1sXyywVBh861d4AUzi/E4MVK7nHrewpKlJHUCRY4ohNTrWlbw6a7MlameCAOHwEZtf/DAU5oqDK3UpGUlA==",
   "success": true,
   "projectFilePath": "C:\\Users\\saeel.naik\\Documents\\GitHub\\OrganizationManagementTool\\OrganizationManagementTool\\OrganizationManagementTool.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\saeel.naik\\.nuget\\packages\\angularjs.core\\1.8.2\\angularjs.core.1.8.2.nupkg.sha512",
     "C:\\Users\\saeel.naik\\.nuget\\packages\\humanizer.core\\2.2.0\\humanizer.core.2.2.0.nupkg.sha512",
     "C:\\Users\\saeel.naik\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\saeel.naik\\.nuget\\packages\\microsoft.aspnetcore.mvc.razor.extensions\\3.1.0\\microsoft.aspnetcore.mvc.razor.extensions.3.1.0.nupkg.sha512",

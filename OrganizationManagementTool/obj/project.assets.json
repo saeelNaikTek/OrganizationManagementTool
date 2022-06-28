@@ -2,6 +2,9 @@
   "version": 3,
   "targets": {
     "net5.0": {
+      "AngularJS.Core/1.8.2": {
+        "type": "package"
+      },
       "Humanizer.Core/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -2592,6 +2595,21 @@
     }
   },
   "libraries": {
+    "AngularJS.Core/1.8.2": {
+      "sha512": "XqWsLLPPF8KDFYbVPbtpbae1claPLcjyxZgYThdXQri3I2O8SDdMzNafnhIi9nGgg3X6zsu1W0Qj0u5p1wr5mA==",
+      "type": "package",
+      "path": "angularjs.core/1.8.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "angularjs.core.1.8.2.nupkg.sha512",
+        "angularjs.core.nuspec",
+        "content/Scripts/angular-mocks.js",
+        "content/Scripts/angular.js",
+        "content/Scripts/angular.min.js",
+        "content/Scripts/angular.min.js.map"
+      ]
+    },
     "Humanizer.Core/2.2.0": {
       "sha512": "rsYXB7+iUPP8AHgQ8JP2UZI2xK2KhjcdGr9E6zX3CsZaTLCaw8M35vaAJRo1rfxeaZEVMuXeaquLVCkZ7JcZ5Q==",
       "type": "package",
@@ -8413,6 +8431,7 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "AngularJS.Core >= 1.8.2",
       "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation >= 3.1.0",
       "Microsoft.EntityFrameworkCore >= 3.1.0",
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.0.1",
@@ -8468,6 +8487,10 @@
       "net5.0": {
         "targetAlias": "net5.0",
         "dependencies": {
+          "AngularJS.Core": {
+            "target": "Package",
+            "version": "[1.8.2, )"
+          },
           "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
             "target": "Package",
             "version": "[3.1.0, )"
